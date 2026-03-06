@@ -2,7 +2,7 @@ import { GoogleGenAI, Type, Chat } from "@google/genai";
 import { HoroscopeData, CompatibilityData, BirthChartData, ZodiacSign, VedicKundliData, MatchMakingData, CalculatorResult } from "../types";
 
 // Fix: Always use new GoogleGenAI({ apiKey: process.env.API_KEY });
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
 const MODEL_NAME = "gemini-3-flash-preview";
 
 // Fix: Define schemas as objects to avoid using SchemaType (deprecated) or undefined Schema type.

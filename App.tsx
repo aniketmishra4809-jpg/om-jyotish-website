@@ -1,88 +1,115 @@
-import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import StarryBackground from './components/StarryBackground';
-import Navigation from './components/Navigation';
-import Home from './components/Hero';
-import DailyHoroscope from './components/DailyHoroscope';
-import FreeKundli from './components/FreeKundli';
-import KundliMatching from './components/KundliMatching';
-import Calculators from './components/Calculators';
-import NatalChart from './components/NatalChart';
-import Compatibility from './components/Compatibility';
-import AIChat from './components/AIChat';
-import Shop from './components/Shop';
-import ServicesPage from './components/ServicesPage';
-import AboutPage from './components/AboutPage';
-import PrivacyPolicy from './components/PrivacyPolicy';
-import TermsConditions from './components/TermsConditions';
-import LeadPopup from './components/LeadPopup';
-import { AppView } from './types';
+import React from "react";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 
-function App() {
-  const [currentView, setCurrentView] = useState<AppView>(AppView.Home);
+import StarryBackground from "./components/StarryBackground";
+import Navigation from "./components/Navigation";
+import Home from "./components/Hero";
+import DailyHoroscope from "./components/DailyHoroscope";
+import FreeKundli from "./components/FreeKundli";
+import KundliMatching from "./components/KundliMatching";
+import Calculators from "./components/Calculators";
+import NatalChart from "./components/NatalChart";
+import Compatibility from "./components/Compatibility";
+import AIChat from "./components/AIChat";
+import Shop from "./components/Shop";
+import ServicesPage from "./components/ServicesPage";
+import AboutPage from "./components/AboutPage";
+import PrivacyPolicy from "./components/PrivacyPolicy";
+import TermsConditions from "./components/TermsConditions";
+import LeadPopup from "./components/LeadPopup";
+import { AppView } from "./types";
 
-  // Scroll to top when view changes
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [currentView]);
+function AppContent() {
+  const navigate = useNavigate();
 
-  const renderView = () => {
-    switch (currentView) {
+  // This function keeps old buttons working
+  const handleNavigate = (view: AppView) => {
+    switch (view) {
       case AppView.Home:
-        return <Home onNavigate={setCurrentView} />;
+        navigate("/");
+        break;
       case AppView.Services:
-        return <ServicesPage onNavigate={setCurrentView} />;
+        navigate("/services");
+        break;
       case AppView.Horoscope:
-        return <DailyHoroscope />;
+        navigate("/horoscope");
+        break;
       case AppView.FreeKundli:
-        return <FreeKundli onNavigate={setCurrentView} />;
+        navigate("/kundli");
+        break;
       case AppView.KundliMatching:
-        return <KundliMatching onNavigate={setCurrentView} />;
+        navigate("/matching");
+        break;
       case AppView.Calculators:
-        return <Calculators onNavigate={setCurrentView} />;
+        navigate("/tools");
+        break;
       case AppView.NatalChart:
-        return <NatalChart />; 
+        navigate("/natal-chart");
+        break;
       case AppView.Compatibility:
-        return <Compatibility />;
+        navigate("/compatibility");
+        break;
       case AppView.AIChat:
-        return <AIChat />;
+        navigate("/chat");
+        break;
       case AppView.Shop:
-        return <Shop onNavigate={setCurrentView} />;
+        navigate("/shop");
+        break;
       case AppView.About:
-        return <AboutPage onNavigate={setCurrentView} />;
+        navigate("/about");
+        break;
       case AppView.PrivacyPolicy:
-        return <PrivacyPolicy />;
+        navigate("/privacy");
+        break;
       case AppView.TermsConditions:
-        return <TermsConditions />;
+        navigate("/terms");
+        break;
       default:
-        return <Home onNavigate={setCurrentView} />;
+        navigate("/");
     }
   };
 
   return (
-  <BrowserRouter>
     <div className="min-h-screen text-slate-200 relative selection:bg-indigo-500 selection:text-white">
-      
+
       <StarryBackground />
       <LeadPopup />
+      <Navigation onNavigate={handleNavigate} />
 
       <main className="relative z-10 pt-24 pb-6">
+
         <Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="/about" element={<AboutPage />} />
-  <Route path="/services" element={<ServicesPage />} />
-  <Route path="/kundli" element={<FreeKundli />} />
-  <Route path="/matching" element={<KundliMatching />} />
-  <Route path="/tools" element={<Calculators />} />
-  <Route path="/shop" element={<Shop />} />
-  <Route path="/chat" element={<AIChat />} />
-</Routes>
+          <Route path="/" element={<Home onNavigate={handleNavigate} />} />
+          <Route path="/about" element={<AboutPage onNavigate={handleNavigate} />} />
+          <Route path="/services" element={<ServicesPage onNavigate={handleNavigate} />} />
+
+          <Route path="/horoscope" element={<DailyHoroscope />} />
+          <Route path="/kundli" element={<FreeKundli onNavigate={handleNavigate} />} />
+          <Route path="/matching" element={<KundliMatching onNavigate={handleNavigate} />} />
+          <Route path="/tools" element={<Calculators onNavigate={handleNavigate} />} />
+
+          <Route path="/natal-chart" element={<NatalChart />} />
+          <Route path="/compatibility" element={<Compatibility />} />
+
+          <Route path="/shop" element={<Shop onNavigate={handleNavigate} />} />
+          <Route path="/chat" element={<AIChat />} />
+
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsConditions />} />
+        </Routes>
+
       </main>
 
-      <Navigation />
-      
     </div>
-  </BrowserRouter>
-);
+  );
 }
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  );
+}
+
 export default App;
